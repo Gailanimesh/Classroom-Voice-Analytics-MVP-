@@ -86,10 +86,28 @@ an audio file to `/api/v1/full-report`.
 | Interaction Count | number of speaker switches | Proxy for back-and-forth engagement regardless of time split |
 
 ## Assumptions & limitations
-- _Fill in after running on real audio:_ Whisper model size used, actual
-  runtime for the 40-min file, whether the 2-speaker-cluster assumption held
-  or needed adjustment.
+- Whisper uses the `small` model by default and translates the Hindi classroom
+   recording to English in one pass. Set `WHISPER_MODEL_SIZE` to change this.
+- A real short Hindi clip has been processed end to end. The deployed demo has
+   also completed transcription, diarization, and report generation on uploaded
+   audio.
+- Full 40-minute runtime and whole-file metric sanity checks are still a
+   release validation step; CPU inference can take several minutes.
 - Diarization assumes speaker roles reduce to Teacher vs Student; more than
   2 detected voice clusters are grouped as "Student".
+- Teacher/Student assignment is a heuristic: the speaker with the most total
+   talk time is labeled Teacher. It should be reviewed for recordings where a
+   student speaks most of the time.
 - No persistence — each request is processed statelessly.
 - Approximate accuracy throughout, per the assignment's stated tolerance.
+
+## Deployment
+The demo runs on Hugging Face Spaces with Gradio. Whisper transcription is
+placed on the available GPU through `spaces.GPU`; pyannote diarization and
+metrics run on CPU. The FastAPI implementation remains available locally for
+API testing and exposes `/health`, `/scalar`, and `/api/v1/full-report`.
+
+The deployment pins the Torch, torchaudio, TorchCodec, Gradio, and Hugging Face
+Hub versions required by the current Spaces/ZeroGPU environment. A Hugging
+Face token must be configured as the `HF_TOKEN` Space secret; never commit it
+to `.env` or the repository.

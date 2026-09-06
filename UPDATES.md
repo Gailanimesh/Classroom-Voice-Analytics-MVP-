@@ -129,6 +129,22 @@
 **Next session should start with:**
 - Rebuild the Space and retry the short audio analysis.
 
+## 2026-09-06 — MVP documentation and release decision
+**Done:**
+- Updated `README.md` with the actual model choice, language behavior,
+  deployment architecture, security note, and known MVP limitations.
+- Confirmed the deployed Gradio flow completes transcription, diarization, and
+  report generation on uploaded audio.
+
+**Decision:**
+- Keep the current architecture and avoid optimization/refactoring before the
+  MVP submission. The next useful validation is one full-recording run to
+  capture runtime and review whole-file metrics.
+
+**Blocked / not yet done:**
+- Dedicated full 40-minute validation and fresh-browser live demo check remain
+  open in `TASKS.md`.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip

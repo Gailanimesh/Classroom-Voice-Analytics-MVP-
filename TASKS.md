@@ -21,7 +21,7 @@
 
 ## Phase 2 — Full pipeline on real audio
 - [ ] Run full 40-min recording through the same test script (expect longer runtime — see PRD §6)
-  Status: started on the real file and still running in the background on CPU; it has not yet produced the final metrics, so Phase 2 remains open
+  Status: not yet completed as a dedicated release check; the deployed demo has completed an uploaded-audio analysis successfully
 - [ ] Sanity-check teacher/student heuristic held up across the whole file
 - [ ] Sanity-check filler-word list catches what actually shows up in this transcript (extend list if needed)
 
@@ -41,7 +41,7 @@
   Current path: Hugging Face Gradio SDK; Docker SDK is paid on the current account
 
 ## Phase 6 — Documentation & submission
-- [ ] README.md filled in (structure, approach, assumptions — see README skeleton)
+- [x] README.md filled in (structure, approach, assumptions — see README skeleton)
 - [ ] PRD.md assumptions section filled in with final values (model size used, language handling decision, etc.)
 - [ ] GitHub repo pushed, public
 - [ ] Live demo link tested from a fresh browser/incognito window
