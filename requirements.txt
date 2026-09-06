@@ -2,7 +2,6 @@ fastapi
 uvicorn[standard]
 faster-whisper
 pyannote.audio<4.0
-huggingface_hub<1.0
 scalar-fastapi
 python-multipart
 python-dotenv
