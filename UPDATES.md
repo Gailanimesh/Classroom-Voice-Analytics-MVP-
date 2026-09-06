@@ -145,6 +145,24 @@
 - Dedicated full 40-minute validation and fresh-browser live demo check remain
   open in `TASKS.md`.
 
+## 2026-09-07 — Stable MVP and deferred long-recording scaling
+**Done:**
+- Created `experiment/chunked-processing` as a separate branch; `main` remains
+  the stable deployed MVP.
+- Documented the full-recording limitation, chunking requirements, progress-log
+  expectations, and the option of a longer-lease GPU service such as RunPod.
+
+**Decision:**
+- Do not add chunking to the submitted MVP. Splitting audio can interrupt
+  context and requires speaker-identity reconciliation across boundaries;
+  shared ZeroGPU parallelism is not guaranteed.
+- Keep the current short-clip/live-demo path and let the local full-audio run
+  finish separately for runtime and quality evidence.
+
+**Next session should start with:**
+- Inspect the local full-run log when it completes. Only develop the optional
+  chunking branch if long-recording support becomes a stated requirement.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip

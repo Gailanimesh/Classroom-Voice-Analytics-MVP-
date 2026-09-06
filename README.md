@@ -111,3 +111,22 @@ The deployment pins the Torch, torchaudio, TorchCodec, Gradio, and Hugging Face
 Hub versions required by the current Spaces/ZeroGPU environment. A Hugging
 Face token must be configured as the `HF_TOKEN` Space secret; never commit it
 to `.env` or the repository.
+
+## Long recordings and scaling decision
+The current MVP processes an upload as one logical analysis. Hugging Face
+ZeroGPU is suitable for the demonstrated short-clip workflow, but a full
+40-minute recording can exceed the temporary GPU lease used by transcription.
+The live MVP therefore keeps the simple, reliable flow instead of silently
+changing the meaning of a long recording.
+
+Chunked processing is intentionally deferred to the separate
+`experiment/chunked-processing` branch. A production implementation would need
+to split transcription into sequential chunks, preserve absolute timestamps,
+write progress and per-chunk logs, and reconcile speaker identities across
+chunk boundaries before calculating metrics. Parallel GPU jobs are not assumed
+to be available on shared ZeroGPU and could increase failures or memory use.
+
+For longer recordings, the preferred next step is a worker or paid GPU service
+with a longer execution lease (for example, RunPod), rather than making the
+MVP's speaker analysis approximate. This keeps the submitted demo easy to
+understand and leaves scaling as an explicit upgrade path.

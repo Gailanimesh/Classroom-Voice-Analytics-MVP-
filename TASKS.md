@@ -37,8 +37,14 @@
 ## Phase 5 — Deployment
 - [x] Dockerfile written for HF Spaces (Docker SDK)
 - [x] Local Docker image built and container health-tested
-- [ ] Deployed, live URL confirmed working end-to-end (not just health check)
+- [x] Deployed, live URL confirmed working end-to-end on uploaded audio
   Current path: Hugging Face Gradio SDK; Docker SDK is paid on the current account
+
+## Optional scaling branch
+- [x] Created `experiment/chunked-processing` without changing `main`
+- [ ] Implement sequential chunked transcription with progress logs
+- [ ] Reconcile speaker identities across chunk boundaries
+- [ ] Benchmark chunked processing against a longer GPU/worker deployment
 
 ## Phase 6 — Documentation & submission
 - [x] README.md filled in (structure, approach, assumptions — see README skeleton)
