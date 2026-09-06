@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-@spaces.GPU(duration=300)
+@spaces.GPU(duration=240)
 def analyze_audio(audio_path):
     if not audio_path:
         raise gr.Error("Please choose an audio file first.")
