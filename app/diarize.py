@@ -44,7 +44,7 @@ def _get_pipeline():
                 "HF_TOKEN not set. Add it to your .env file — see .env.example."
             )
         _pipeline = Pipeline.from_pretrained(
-            "pyannote/speaker-diarization-3.1", token=HF_TOKEN
+            "pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN
         )
     return _pipeline
 
