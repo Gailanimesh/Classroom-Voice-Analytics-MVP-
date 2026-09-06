@@ -12,12 +12,15 @@ Requires a Hugging Face token with access accepted on:
 Both are instant click-through approvals, not manual review.
 """
 import huggingface_hub
+import torch
 import torchaudio
 
 if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
 if not hasattr(torchaudio, "list_audio_backends"):
     torchaudio.list_audio_backends = lambda: ["soundfile"]
+if hasattr(torch.serialization, "add_safe_globals"):
+    torch.serialization.add_safe_globals([torch.torch_version.TorchVersion])
 
 _hf_hub_download = huggingface_hub.hf_hub_download
 
