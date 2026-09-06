@@ -1,7 +1,17 @@
+import json
 import logging
 from pathlib import Path
 
 import gradio as gr
+try:
+    import spaces
+except ImportError:
+    class _LocalSpaces:
+        @staticmethod
+        def GPU(**_kwargs):
+            return lambda function: function
+
+    spaces = _LocalSpaces()
 
 from app.align import align_transcript_with_speakers
 from app.diarize import diarize_audio
@@ -14,7 +24,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def analyze_audio(audio_path):
+@spaces.GPU(duration=60)
+def transcribe_on_gpu(audio_path):
     if not audio_path:
         raise gr.Error("Please choose an audio file first.")
 
@@ -29,6 +40,23 @@ def analyze_audio(audio_path):
             info.language,
             len(transcript_segments),
         )
+        return (
+            f"Transcription complete ({info.language}). Starting CPU diarization...",
+            json.dumps(transcript_segments),
+            info.language,
+        )
+    except Exception:
+        logger.exception("Transcription failed")
+        raise gr.Error("Transcription failed. Check the Space logs for details.")
+
+
+def analyze_on_cpu(audio_path, transcript_json, language):
+    if not audio_path or not transcript_json:
+        raise gr.Error("Transcription did not produce a result.")
+
+    source_path = Path(audio_path)
+    try:
+        transcript_segments = json.loads(transcript_json)
 
         logger.info("Diarizing audio on CPU...")
         speaker_turns = diarize_audio(str(source_path))
@@ -48,18 +76,18 @@ def analyze_audio(audio_path):
             for segment in aligned
         )
         report = {
-            "detected_language": info.language,
+            "detected_language": language,
             "roles": role_map,
             "transcript": aligned,
             "metrics": metrics,
         }
         status = (
-            f"Analysis complete. Detected language: {info.language}. "
+            f"Analysis complete. Detected language: {language}. "
             f"Transcript segments: {len(aligned)}."
         )
         return status, metrics, role_map, transcript_text, report
     except Exception:
-        logger.exception("Gradio analysis failed")
+        logger.exception("CPU analysis failed")
         raise gr.Error("Analysis failed. Check the Space logs for details.")
 
 
@@ -68,6 +96,8 @@ with gr.Blocks(title="Classroom Voice Analytics") as demo:
     audio = gr.File(label="Audio file", file_types=["audio"], type="filepath")
     analyze_button = gr.Button("Analyze audio", variant="primary")
     status = gr.Markdown("Select an audio file to begin.")
+    transcript_state = gr.State("")
+    language_state = gr.State("")
 
     with gr.Row():
         metrics = gr.JSON(label="Engagement metrics")
@@ -75,9 +105,14 @@ with gr.Blocks(title="Classroom Voice Analytics") as demo:
     transcript = gr.Textbox(label="Transcript", lines=18, interactive=False)
     raw_report = gr.JSON(label="Full report", visible=False)
 
-    analyze_button.click(
-        analyze_audio,
+    transcription_event = analyze_button.click(
+        transcribe_on_gpu,
         inputs=audio,
+        outputs=[status, transcript_state, language_state],
+    )
+    transcription_event.then(
+        analyze_on_cpu,
+        inputs=[audio, transcript_state, language_state],
         outputs=[status, metrics, roles, transcript, raw_report],
     )
 
