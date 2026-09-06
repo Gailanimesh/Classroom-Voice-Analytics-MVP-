@@ -15,6 +15,7 @@ import huggingface_hub
 import torch
 import torchaudio
 from collections import namedtuple
+from math import ceil
 
 if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
@@ -31,9 +32,12 @@ if not hasattr(torchaudio, "info"):
 
     def _torchaudio_info(file, backend=None):
         metadata = AudioDecoder(file).metadata
+        num_frames = getattr(metadata, "num_frames", None)
+        if num_frames is None:
+            num_frames = ceil(metadata.duration_seconds * metadata.sample_rate)
         return _AudioMetaData(
             sample_rate=metadata.sample_rate,
-            num_frames=metadata.num_frames,
+            num_frames=num_frames,
             num_channels=metadata.num_channels,
             bits_per_sample=getattr(metadata, "bits_per_sample", 0),
             encoding=getattr(metadata, "codec", "unknown"),
