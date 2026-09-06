@@ -15,6 +15,8 @@ import torchaudio
 
 if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
+if not hasattr(torchaudio, "list_audio_backends"):
+    torchaudio.list_audio_backends = lambda: ["soundfile"]
 
 from pyannote.audio import Pipeline
 from .config import HF_TOKEN
