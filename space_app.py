@@ -1,8 +1,12 @@
 import json
 import logging
+import os
 from pathlib import Path
 
 import gradio as gr
+
+os.environ.setdefault("WHISPER_DEVICE", "cpu")
+
 try:
     import spaces
 except ImportError:
@@ -45,9 +49,9 @@ def transcribe_on_gpu(audio_path):
             json.dumps(transcript_segments),
             info.language,
         )
-    except Exception:
+    except Exception as error:
         logger.exception("Transcription failed")
-        raise gr.Error("Transcription failed. Check the Space logs for details.")
+        raise gr.Error(f"Transcription failed: {error}")
 
 
 def analyze_on_cpu(audio_path, transcript_json, language):

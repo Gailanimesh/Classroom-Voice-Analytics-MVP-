@@ -11,7 +11,7 @@ in Hindi (Devanagari script), switch task to "transcribe" instead.
 """
 import torch
 from faster_whisper import WhisperModel
-from .config import WHISPER_MODEL_SIZE
+from .config import WHISPER_DEVICE, WHISPER_MODEL_SIZE
 
 _model = None
 
@@ -19,7 +19,9 @@ _model = None
 def _get_model():
     global _model
     if _model is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = WHISPER_DEVICE
+        if device == "auto":
+            device = "cuda" if torch.cuda.is_available() else "cpu"
         # int8 keeps the model practical on both local GPUs and CPU-only deployments.
         _model = WhisperModel(WHISPER_MODEL_SIZE, device=device, compute_type="int8")
     return _model
