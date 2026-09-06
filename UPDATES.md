@@ -78,6 +78,25 @@
 - Dockerfile / deployment not started
 - README assumptions section not yet filled with real values
 
+## 2026-09-06 — Checkpoint dependency pin
+**Done:**
+- Added `torch==2.5.1` and `torchaudio==2.5.1` to `requirements.txt` so fresh
+  installs do not drift into the PyTorch safe-checkpoint incompatibility seen
+  with newer Torch releases.
+- Confirmed the existing project `venv` already has Torch 2.5.1, torchaudio,
+  and faster-whisper, with `pip check` reporting no broken requirements.
+- Confirmed GitHub and Hugging Face remotes are configured on the `main` branch.
+
+**Blocked / not yet done:**
+- Do not call the system `python`; use `venv\\Scripts\\python.exe` on Windows.
+- Full 40-minute validation, API end-to-end validation, live deployment smoke
+  test, and fresh-browser demo test remain open in `TASKS.md`.
+
+**Next session should start with:**
+- Run `venv\\Scripts\\python.exe -m tests.test_pipeline_manual short_clip.wav`,
+  then complete the API and live deployment checks before calling the project
+  deployment-ready.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip
