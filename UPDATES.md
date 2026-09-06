@@ -97,6 +97,19 @@
   then complete the API and live deployment checks before calling the project
   deployment-ready.
 
+## 2026-09-06 — ZeroGPU dependency correction
+**Done:**
+- Updated Torch and torchaudio pins to `2.11.0`, one of the versions supported
+  by Hugging Face ZeroGPU.
+- Updated the Docker CPU image pins to the same Torch release.
+- Added the trusted pyannote checkpoint types to Torch's safe-global allowlist,
+  preserving checkpoint loading under the newer Torch serialization behavior.
+- Verified `app.diarize` imports successfully and registers all required globals.
+
+**Next session should start with:**
+- Wait for the Hugging Face Space rebuild, then test the live app with a short
+  audio upload and confirm the full report endpoint works.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip

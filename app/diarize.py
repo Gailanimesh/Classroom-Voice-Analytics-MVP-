@@ -19,8 +19,19 @@ if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
 if not hasattr(torchaudio, "list_audio_backends"):
     torchaudio.list_audio_backends = lambda: ["soundfile"]
+
+from pyannote.audio.core.task import Problem, Resolution, Specifications
+
 if hasattr(torch.serialization, "add_safe_globals"):
-    torch.serialization.add_safe_globals([torch.torch_version.TorchVersion])
+    torch.serialization.add_safe_globals(
+        [
+            torch.torch_version.TorchVersion,
+            Specifications,
+            Problem,
+            Resolution,
+            getattr,
+        ]
+    )
 
 _hf_hub_download = huggingface_hub.hf_hub_download
 

@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir \
     --index-url https://download.pytorch.org/whl/cpu \
-    torch==2.5.1+cpu torchaudio==2.5.1+cpu \
+    torch==2.11.0+cpu torchaudio==2.11.0+cpu \
     && grep -v -E '^(torch|torchaudio)(==|$)' requirements.txt > /tmp/runtime-requirements.txt \
     && pip install --no-cache-dir -r /tmp/runtime-requirements.txt
 

@@ -1,7 +1,7 @@
 fastapi
 uvicorn[standard]
-torch==2.5.1
-torchaudio==2.5.1
+torch==2.11.0
+torchaudio==2.11.0
 huggingface_hub<1.0
 faster-whisper
 pyannote.audio<4.0
