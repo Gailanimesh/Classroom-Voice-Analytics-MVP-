@@ -121,6 +121,14 @@
 - Rebuild the Hugging Face Space and test a short audio upload after the
   dependency installation succeeds.
 
+## 2026-09-06 — TorchCodec runtime dependency
+**Done:**
+- Added `torchcodec` for torchaudio 2.11 audio decoding, which now delegates
+  `load` operations to TorchCodec.
+
+**Next session should start with:**
+- Rebuild the Space and retry the short audio analysis.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip
