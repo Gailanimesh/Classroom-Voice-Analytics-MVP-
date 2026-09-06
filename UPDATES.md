@@ -110,6 +110,17 @@
 - Wait for the Hugging Face Space rebuild, then test the live app with a short
   audio upload and confirm the full report endpoint works.
 
+## 2026-09-06 — Gradio dependency correction
+**Done:**
+- Updated `huggingface_hub` to `>=1.16,<2.0`, matching Gradio 6.26.0's
+  requirement and removing the Space build resolver conflict.
+- Kept the existing compatibility wrapper in `app/diarize.py` for pyannote's
+  older `use_auth_token` parameter.
+
+**Next session should start with:**
+- Rebuild the Hugging Face Space and test a short audio upload after the
+  dependency installation succeeds.
+
 **Next session should start with:**
 - Run the one-line diagnostic (`set(t["speaker"] for t in turns)`) to
   confirm speaker count on the test clip
