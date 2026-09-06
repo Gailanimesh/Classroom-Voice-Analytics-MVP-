@@ -1,7 +1,14 @@
 ---
 title: Classroom Voice Analytics
 sdk: gradio
+sdk_version: 6.26.0
+python_version: '3.11'
 app_file: space_app.py
+emoji: 📉
+colorFrom: blue
+colorTo: blue
+short_description: AI-powered classroom voice analytics
+license: mit
 ---
 
 # Classroom Voice Analytics — MVP
