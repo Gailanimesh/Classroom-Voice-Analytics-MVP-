@@ -14,11 +14,32 @@ Both are instant click-through approvals, not manual review.
 import huggingface_hub
 import torch
 import torchaudio
+from collections import namedtuple
 
 if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
 if not hasattr(torchaudio, "list_audio_backends"):
     torchaudio.list_audio_backends = lambda: ["soundfile"]
+if not hasattr(torchaudio, "info"):
+    from torchcodec.decoders import AudioDecoder
+
+    _AudioMetaData = namedtuple(
+        "AudioMetaData",
+        ["sample_rate", "num_frames", "num_channels", "bits_per_sample", "encoding"],
+    )
+    torchaudio.AudioMetaData = _AudioMetaData
+
+    def _torchaudio_info(file, backend=None):
+        metadata = AudioDecoder(file).metadata
+        return _AudioMetaData(
+            sample_rate=metadata.sample_rate,
+            num_frames=metadata.num_frames,
+            num_channels=metadata.num_channels,
+            bits_per_sample=getattr(metadata, "bits_per_sample", 0),
+            encoding=getattr(metadata, "codec", "unknown"),
+        )
+
+    torchaudio.info = _torchaudio_info
 
 from pyannote.audio.core.task import Problem, Resolution, Specifications
 
