@@ -130,3 +130,5 @@ For longer recordings, the preferred next step is a worker or paid GPU service
 with a longer execution lease (for example, RunPod), rather than making the
 MVP's speaker analysis approximate. This keeps the submitted demo easy to
 understand and leaves scaling as an explicit upgrade path.
+
+
