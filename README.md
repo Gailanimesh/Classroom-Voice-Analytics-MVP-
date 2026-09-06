@@ -79,11 +79,16 @@ an audio file to `/api/v1/full-report`.
    transcript — no additional models involved.
 
 ## Engagement metrics
-| Metric | Formula | Interpretation |
-|---|---|---|
-| Teacher Dominance Ratio | teacher_talk_time / total_talk_time | High (~0.8+) suggests lecture-style monologue; lower suggests more dialogue |
-| Student Participation Indicator | student_talk_time / total_talk_time | Inverse signal to the above — how much room students had to speak |
-| Interaction Count | number of speaker switches | Proxy for back-and-forth engagement regardless of time split |
+| Metric | Formula / Logic | Short explanation | Interpretation |
+|---|---|---|---|
+| Teacher Dominance Ratio | `teacher_talk_time / total_talk_time` | Share of detected speaking time assigned to the teacher. | High values (around 0.8+) suggest lecture-style delivery; lower values suggest more dialogue. |
+| Student Participation Indicator | `student_talk_time / total_talk_time` | Share of detected speaking time assigned to students. | Higher values indicate that students had more room to speak. |
+| Interaction Count | Count each change from one speaker to another in chronological diarization turns. | Measures how often the conversation changes speaker. | Higher values suggest more back-and-forth interaction, regardless of total talk time. |
+| Teacher Questions | Count aligned teacher transcript segments containing question markers. | Estimates how many questions the teacher asked. | Higher values may indicate more prompting or discussion, but the keyword heuristic is approximate. |
+| Student Response Count | Count diarization turns mapped to the Student role. | Counts student speaking turns, including turns without reliable transcript text. | Higher values indicate more separate student contributions. |
+| Teacher Talk Time | Sum of durations of turns mapped to the Teacher role, in seconds. | Measures the teacher's total detected speaking time. | Useful with the dominance ratio to distinguish short or long sessions. |
+| Student Talk Time | Sum of durations of turns mapped to the Student role, in seconds. | Measures students' total detected speaking time. | Useful with the participation indicator to compare sessions. |
+| Total Duration | Sum of all detected diarization-turn durations, in seconds. | Measures total detected speech time, excluding silence. | Provides context for comparing talk-time values across recordings. |
 
 ## Assumptions & limitations
 - Whisper uses the `small` model by default and translates the Hindi classroom
