@@ -1,3 +1,9 @@
+---
+title: Classroom Voice Analytics
+sdk: gradio
+app_file: space_app.py
+---
+
 # Classroom Voice Analytics — MVP
 
 A prototype that turns classroom audio into a transcript, teacher/student

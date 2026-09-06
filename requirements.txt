@@ -9,3 +9,4 @@ scalar-fastapi
 python-multipart
 python-dotenv
 pydantic
+gradio
