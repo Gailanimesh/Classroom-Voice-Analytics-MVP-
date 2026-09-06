@@ -11,12 +11,24 @@ Requires a Hugging Face token with access accepted on:
   - pyannote/segmentation-3.0 (its dependency)
 Both are instant click-through approvals, not manual review.
 """
+import huggingface_hub
 import torchaudio
 
 if not hasattr(torchaudio, "AudioMetaData"):
     torchaudio.AudioMetaData = object
 if not hasattr(torchaudio, "list_audio_backends"):
     torchaudio.list_audio_backends = lambda: ["soundfile"]
+
+_hf_hub_download = huggingface_hub.hf_hub_download
+
+
+def _hf_hub_download_compat(*args, use_auth_token=None, **kwargs):
+    if use_auth_token is not None and "token" not in kwargs:
+        kwargs["token"] = use_auth_token
+    return _hf_hub_download(*args, **kwargs)
+
+
+huggingface_hub.hf_hub_download = _hf_hub_download_compat
 
 from pyannote.audio import Pipeline
 from .config import HF_TOKEN
@@ -31,15 +43,9 @@ def _get_pipeline():
             raise RuntimeError(
                 "HF_TOKEN not set. Add it to your .env file — see .env.example."
             )
-        try:
-            _pipeline = Pipeline.from_pretrained(
-                "pyannote/speaker-diarization-3.1", token=HF_TOKEN
-            )
-        except TypeError:
-            # Older pyannote.audio versions use the pre-rename parameter name.
-            _pipeline = Pipeline.from_pretrained(
-                "pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN
-            )
+        _pipeline = Pipeline.from_pretrained(
+            "pyannote/speaker-diarization-3.1", token=HF_TOKEN
+        )
     return _pipeline
 
 
