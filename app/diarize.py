@@ -45,6 +45,12 @@ def _hf_hub_download_compat(*args, use_auth_token=None, **kwargs):
 huggingface_hub.hf_hub_download = _hf_hub_download_compat
 
 from pyannote.audio import Pipeline
+import pyannote.audio.core.model as _pyannote_model
+import pyannote.audio.core.pipeline as _pyannote_pipeline
+
+_pyannote_model.hf_hub_download = _hf_hub_download_compat
+_pyannote_pipeline.hf_hub_download = _hf_hub_download_compat
+
 from .config import HF_TOKEN
 
 _pipeline = None
