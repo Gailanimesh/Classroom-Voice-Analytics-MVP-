@@ -193,6 +193,25 @@
 - Confirm the container log shows `POST /api/v1/full-report` and wait for the
   analysis response before testing the full recording.
 
+## 2026-09-06 — Added free Gradio deployment path
+**Done:**
+- Confirmed the current Hugging Face account marks the Docker SDK as paid.
+- Added `space_app.py`, a Gradio entry point that reuses the existing
+  transcription, CPU diarization, alignment, roles, and metrics pipeline.
+- Added `gradio` to the dependencies and Hugging Face Space metadata to launch
+  `space_app.py` automatically with the Gradio SDK.
+- Published the adapter in commit `1af1687` on the GitHub `main` branch.
+
+**Decision:**
+- Use Hugging Face Spaces with the free Gradio SDK and CPU hardware. Static
+  hosting cannot run this Python ML pipeline; small generic free web hosts may
+  not have enough memory for Torch and pyannote.
+
+**Next session should start with:**
+- Create a Hugging Face Space using the Gradio SDK and connect this repository.
+- Add `HF_TOKEN` as a Space secret, wait for the build, and test the Gradio
+  upload with `short_clip.wav`.
+
 ## 2026-09-06 — Prevented stale demo page caching
 **Done:**
 - Diagnosed the apparent no-op submit as a stale/cached demo document combined

@@ -38,6 +38,7 @@
 - [x] Dockerfile written for HF Spaces (Docker SDK)
 - [x] Local Docker image built and container health-tested
 - [ ] Deployed, live URL confirmed working end-to-end (not just health check)
+  Current path: Hugging Face Gradio SDK; Docker SDK is paid on the current account
 
 ## Phase 6 — Documentation & submission
 - [ ] README.md filled in (structure, approach, assumptions — see README skeleton)
