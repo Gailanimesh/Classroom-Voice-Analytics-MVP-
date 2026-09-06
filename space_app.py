@@ -90,9 +90,9 @@ def analyze_on_cpu(audio_path, transcript_json, language):
             f"Transcript segments: {len(aligned)}."
         )
         return status, metrics, role_map, transcript_text, report
-    except Exception:
+    except Exception as error:
         logger.exception("CPU analysis failed")
-        raise gr.Error("Analysis failed. Check the Space logs for details.")
+        raise gr.Error(f"Analysis failed: {error}")
 
 
 with gr.Blocks(title="Classroom Voice Analytics") as demo:
