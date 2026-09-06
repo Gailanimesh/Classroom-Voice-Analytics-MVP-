@@ -2,15 +2,6 @@ import logging
 from pathlib import Path
 
 import gradio as gr
-try:
-    import spaces
-except ImportError:
-    class _LocalSpaces:
-        @staticmethod
-        def GPU(**_kwargs):
-            return lambda function: function
-
-    spaces = _LocalSpaces()
 
 from app.align import align_transcript_with_speakers
 from app.diarize import diarize_audio
@@ -23,7 +14,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-@spaces.GPU(duration=240)
 def analyze_audio(audio_path):
     if not audio_path:
         raise gr.Error("Please choose an audio file first.")
