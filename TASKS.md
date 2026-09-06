@@ -30,11 +30,13 @@
 - [ ] CORS confirmed working if demo UI is a separate frontend
 
 ## Phase 4 — Demo interface
-- [ ] Simple page/Streamlit app built showing: transcript, metrics, summary
-- [ ] Interface calls `/api/v1/full-report` and renders the response
+- [x] Simple page/Streamlit app built showing: transcript, metrics, summary
+- [x] Interface calls `/api/v1/full-report` and renders the response
+  Status: `/demo` loads successfully; full upload remains an ML integration test
 
 ## Phase 5 — Deployment
-- [ ] Dockerfile written for HF Spaces (Docker SDK)
+- [x] Dockerfile written for HF Spaces (Docker SDK)
+- [x] Local Docker image built and container health-tested
 - [ ] Deployed, live URL confirmed working end-to-end (not just health check)
 
 ## Phase 6 — Documentation & submission

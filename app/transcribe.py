@@ -9,6 +9,7 @@ spoken language (Hindi, in our case). This is a single-model-call shortcut —
 no separate translation step or API needed. If you'd rather keep the transcript
 in Hindi (Devanagari script), switch task to "transcribe" instead.
 """
+import torch
 from faster_whisper import WhisperModel
 from .config import WHISPER_MODEL_SIZE
 
@@ -18,8 +19,9 @@ _model = None
 def _get_model():
     global _model
     if _model is None:
-        # compute_type="int8" keeps this fast and light enough for CPU-only inference
-        _model = WhisperModel(WHISPER_MODEL_SIZE, device="cpu", compute_type="int8")
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        # int8 keeps the model practical on both local GPUs and CPU-only deployments.
+        _model = WhisperModel(WHISPER_MODEL_SIZE, device=device, compute_type="int8")
     return _model
 
 

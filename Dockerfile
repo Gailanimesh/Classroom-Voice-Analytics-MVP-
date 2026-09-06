@@ -7,7 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && rm -r
 
 WORKDIR /app
 COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir \
+    --index-url https://download.pytorch.org/whl/cpu \
+    torch==2.5.1+cpu torchaudio==2.5.1+cpu \
+    && grep -v -E '^(torch|torchaudio)(==|$)' requirements.txt > /tmp/runtime-requirements.txt \
+    && pip install --no-cache-dir -r /tmp/runtime-requirements.txt
 
 COPY app ./app
 COPY tests ./tests
