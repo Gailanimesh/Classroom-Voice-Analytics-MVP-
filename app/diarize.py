@@ -11,6 +11,11 @@ Requires a Hugging Face token with access accepted on:
   - pyannote/segmentation-3.0 (its dependency)
 Both are instant click-through approvals, not manual review.
 """
+import torchaudio
+
+if not hasattr(torchaudio, "AudioMetaData"):
+    torchaudio.AudioMetaData = object
+
 from pyannote.audio import Pipeline
 from .config import HF_TOKEN
 
