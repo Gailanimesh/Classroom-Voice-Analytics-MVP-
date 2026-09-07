@@ -112,6 +112,8 @@ placed on the available GPU through `spaces.GPU`; pyannote diarization and
 metrics run on CPU. The FastAPI implementation remains available locally for
 API testing and exposes `/health`, `/scalar`, and `/api/v1/full-report`.
 
+**Live demo:** https://huggingface.co/spaces/GailAnimesh/Classroom_Voice_Analytics
+
 The deployment pins the Torch, torchaudio, TorchCodec, Gradio, and Hugging Face
 Hub versions required by the current Spaces/ZeroGPU environment. A Hugging
 Face token must be configured as the `HF_TOKEN` Space secret; never commit it
